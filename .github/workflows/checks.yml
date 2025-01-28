@@ -15,7 +15,10 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Install Flake8 (if needed)
+        run: |
+          docker compose run --rm app pip install flake8  # Optional, based on your Dockerfile setup
       - name: Test
         run: docker compose run --rm app sh -c "python manage.py test"
       - name: Lint
-        run: docker compose run --rm app sh -c "flake8"
+        run: docker compose run --rm app sh -c "flake8 ."
